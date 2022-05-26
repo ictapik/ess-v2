@@ -157,7 +157,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/gallery.html" class="nav-link">
+              <a href="<?= base_url(); ?>employee_v2/history" class="nav-link">
                 <i class="nav-icon fa fa-history"></i>
                 <p>
                   Riwayat Pengajuan

@@ -59,4 +59,26 @@ class Employee_v2 extends CI_Controller
     $this->load->view('employee_v2/v_attendance_v2', $data);
     $this->load->view('employee_v2/v_footer_v2');
   }
+
+  public function history()
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $sql = "SELECT 
+                    am.nik, am.iodate, am.time, am.type, am.description, am.isapproved, s.name AS shift, u.nama_karyawan, d.name AS department
+                FROM attendance_manual  am
+                JOIN tb_user u ON (am.nik = u.id_karyawan)
+                JOIN department d ON (u.department_id = d.department_id)
+                JOIN shift s ON (am.shift_id = s.shift_id)
+                WHERE nik = '$nik' 
+                -- AND isapproved <> 0
+                ORDER BY am.attendance_manual_id DESC";
+    $data = array(
+      "history" => $this->db->query($sql)->result(),
+    );
+
+    $this->load->view('employee_v2/v_header_v2');
+    $this->load->view('employee_v2/v_history_v2', $data);
+    $this->load->view('employee_v2/v_footer_v2');
+  }
 }

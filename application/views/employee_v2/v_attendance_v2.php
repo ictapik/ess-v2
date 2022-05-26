@@ -167,7 +167,6 @@
         }
       }, {
         "data": "shift_name",
-        className: "dt-center"
       }, ],
       "lengthMenu": [
         [10, 25, 50, 100, 500, -1],
