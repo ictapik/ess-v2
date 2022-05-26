@@ -13,7 +13,7 @@
   <!-- /.content-header -->
   <section class="content">
     <!-- Default box -->
-    <div class="card">
+    <div class="card card-primary card-outline">
       <div class="card-body">
 
         <center>
@@ -57,6 +57,8 @@
           <i class="fa fa-key"></i> Ganti Password
         </button>
 
+      </div>
+      <div class="card-footer">
       </div>
     </div>
   </section>

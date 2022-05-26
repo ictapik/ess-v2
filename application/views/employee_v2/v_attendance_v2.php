@@ -13,8 +13,8 @@
   <!-- /.content-header -->
   <section class="content">
     <!-- Default box -->
-    <div class="card">
-      <div class="card-body table-responsive p-2">
+    <div class="card card-primary card-outline">
+      <div class=" card-body table-responsive p-2">
 
         <table class="table table-bordered table-hover text-nowrap" id="myTable" width="100%" cellspacing="0">
           <thead>
@@ -35,6 +35,8 @@
           </tfoot>
         </table>
 
+      </div>
+      <div class="card-footer">
       </div>
     </div>
     <!-- /.card -->

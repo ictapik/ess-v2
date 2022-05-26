@@ -149,7 +149,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee_v2/profile" class="nav-link">
+              <a href="<?= base_url(); ?>employee_v2/attendance" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
                   Absensi
