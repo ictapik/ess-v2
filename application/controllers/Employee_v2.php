@@ -36,6 +36,27 @@ class Employee_v2 extends CI_Controller
     $this->load->view('employee_v2/v_footer_v2');
   }
 
+  public function profile()
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $employee = $this->db->query(
+      "SELECT u.*, d.name AS department, st.name AS shift
+            FROM tb_user u            
+            JOIN department d ON (u.department_id = d.department_id)
+            JOIN shift_type st ON (u.shift_type_id = st.shift_type_id)
+            WHERE id_karyawan = '$nik'"
+    )->row();
+
+    $data = array(
+      "employee" => $employee
+    );
+
+    $this->load->view('employee_v2/v_header_v2');
+    $this->load->view('employee_v2/v_profile_v2', $data);
+    $this->load->view('employee_v2/v_footer_v2');
+  }
+
   public function attendance()
   {
     $nik = $this->session->userdata('ses_nik');
