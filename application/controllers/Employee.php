@@ -358,7 +358,8 @@ class Employee extends CI_Controller
             $response .= '<option value="' . $es['shift_id'] . '">' . $es['name'] . '</option>';
         }
         $response .= '</select><br>';
-        $response .= '<table class="table table-responsive table-bordered" id="tableSearchLog" width="100%" cellspacing="0">
+        $response .= '<div class="table-responsive">';
+        $response .= '<table class="table table-bordered" id="tableSearchLog" width="100%" cellspacing="0">
                      <thead>
                          <tr>
                              <th>Tanggal</th>
@@ -376,12 +377,13 @@ class Employee extends CI_Controller
             <td class="text-center">' . ($row['inout_type'] == "0001000" ? "<span class='badge badge-success' >IN</span>" : "<span class='badge badge-danger'>OUT</span>") . '</td>
             <td>' . $row['shift_type_name'] . '</td>
             <td>' . $row['source'] . '</td>
-            <td><button type="button" onclick="selectAtt2(' . $row['id'] . ',' . $attendance_id . ',' .  $type . ')" class="btn btn-sm btn-primary">Pilih</button></td>
+            <td class="text-center"><button type="button" onclick="selectAtt2(' . $row['id'] . ',' . $attendance_id . ',' .  $type . ')" class="btn btn-sm btn-primary">Pilih</button></td>
             </tr>';
         }
         $response .= '</tbody>';
 
         $response .= '</table>';
+        $response .= '</div>';
 
         if (empty($dataLog)) {
             echo json_encode(
