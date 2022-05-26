@@ -7,7 +7,7 @@ class Employee_v2 extends CI_Controller
   {
     parent::__construct();
     if ($this->session->userdata('masuk') != TRUE) {
-      $url = base_url();
+      $url = base_url('auth');
       redirect($url);
     }
     $this->load->model('model_employee', 'me');

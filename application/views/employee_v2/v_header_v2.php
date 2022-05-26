@@ -164,6 +164,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="<?= base_url(); ?>auth/logout" class="nav-link">
+                <i class="nav-icon fa fa-power-off"></i>
+                <p>
+                  Keluar
+                </p>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

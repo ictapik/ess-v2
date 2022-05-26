@@ -7,10 +7,10 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model(['model_login', 'model_master']);
-        if ($this->session->userdata('masuk') != TRUE) {
-            $url = base_url();
-            redirect($url);
-        }
+        // if ($this->session->userdata('masuk') != TRUE) {
+        //     $url = base_url();
+        //     redirect($url);
+        // }
     }
 
     function index()
