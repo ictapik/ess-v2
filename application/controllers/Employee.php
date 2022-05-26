@@ -358,7 +358,7 @@ class Employee extends CI_Controller
             $response .= '<option value="' . $es['shift_id'] . '">' . $es['name'] . '</option>';
         }
         $response .= '</select><br>';
-        $response .= '<table class="table table-bordered" id="tableSearchLog" width="100%" cellspacing="0">
+        $response .= '<table class="table table-responsive table-bordered" id="tableSearchLog" width="100%" cellspacing="0">
                      <thead>
                          <tr>
                              <th>Tanggal</th>

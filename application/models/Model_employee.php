@@ -77,11 +77,11 @@ class Model_employee extends CI_Model
     {
         return $this->db->query(
             "SELECT 
-                time_in 
+                time_in, time_in_m
             FROM attendance
             WHERE nik = '$nik'
             AND iodate = DATE(NOW())"
-        )->row()->time_in;
+        )->row();
     }
 
     public function allIn($nik, $start, $end)

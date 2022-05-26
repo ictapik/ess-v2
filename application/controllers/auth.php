@@ -7,6 +7,10 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model(['model_login', 'model_master']);
+        if ($this->session->userdata('masuk') != TRUE) {
+            $url = base_url();
+            redirect($url);
+        }
     }
 
     function index()
@@ -26,14 +30,14 @@ class Auth extends CI_Controller
                 $this->session->set_userdata('akses', '1');
                 $this->session->set_userdata('ses_id', $data['User_ID']);
                 $this->session->set_userdata('ses_nama', $data['User_Name']);
-                redirect('employee/dashboard');
+                redirect('employee_v2/dashboard');
             } else {
                 $this->session->set_userdata('masuk', TRUE);
                 $this->session->set_userdata('akses', '3');
                 $this->session->set_userdata('ses_id', $data['id']);
                 $this->session->set_userdata('ses_nik', $data['id_karyawan']);
                 $this->session->set_userdata('ses_nama', $data['nama_karyawan']);
-                redirect('employee/dashboard');
+                redirect('employee_v2/dashboard');
             }
         } else { //jika login sebagai user
             // jika username dan password tidak ditemukan atau salah
