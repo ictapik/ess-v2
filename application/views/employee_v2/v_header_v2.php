@@ -149,7 +149,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/gallery.html" class="nav-link">
+              <a href="<?= base_url(); ?>employee_v2/log" class="nav-link">
                 <i class="nav-icon fa fa-file-alt"></i>
                 <p>
                   Log In/Out

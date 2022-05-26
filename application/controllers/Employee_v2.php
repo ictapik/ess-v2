@@ -81,4 +81,17 @@ class Employee_v2 extends CI_Controller
     $this->load->view('employee_v2/v_history_v2', $data);
     $this->load->view('employee_v2/v_footer_v2');
   }
+
+  public function log()
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $data = array(
+      'log' => $this->me->getLog($nik),
+    );
+
+    $this->load->view('employee_v2/v_header_v2');
+    $this->load->view('employee_v2/v_log_v2', $data);
+    $this->load->view('employee_v2/v_footer_v2');
+  }
 }
