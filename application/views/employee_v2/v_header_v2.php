@@ -120,10 +120,19 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="<?= base_url(); ?>assets/adminlte-template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+
+            <?php
+            if ($this->session->userdata('ses_jk') == "Perempuan") {
+              $img = "assets/img/default-woman.jpg";
+            } else {
+              $img = "assets/img/default-man.jpg";
+            }
+            ?>
+
+            <img src="<?= base_url($img); ?>" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block"><?= $this->session->userdata('ses_nama') ?></a>
+            <a href="#" class="d-block"><?= $this->session->userdata('ses_nama'); ?></a>
           </div>
         </div>
 

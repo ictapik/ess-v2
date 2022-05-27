@@ -23,10 +23,14 @@
             <div class="inner">
               <h4>
                 <?php
-                if ($timeIn->time_in != "00:00:00") {
-                  echo "ada in $timeIn->time_in";
-                } elseif ($timeIn->time_in_m != "") {
-                  echo "ada in m $timeIn->time_in_m";
+                if (!empty($timeIn)) {
+                  if ($timeIn->time_in != "00:00:00") {
+                    echo "$timeIn->time_in";
+                  } elseif ($timeIn->time_in_m != "") {
+                    echo "$timeIn->time_in_m";
+                  } else {
+                    echo "--:--:--";
+                  }
                 } else {
                   echo "--:--:--";
                 }
@@ -46,7 +50,7 @@
             <div class="inner">
               <h4><?= $lateIn ?><sup style="font-size:10px">days</sup></h4>
 
-              <p>TERLAMBAT</p>
+              <p>TOTAL TERLAMBAT</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>

@@ -37,6 +37,7 @@ class Auth extends CI_Controller
                 $this->session->set_userdata('ses_id', $data['id']);
                 $this->session->set_userdata('ses_nik', $data['id_karyawan']);
                 $this->session->set_userdata('ses_nama', $data['nama_karyawan']);
+                $this->session->set_userdata('ses_jk', $data['jenis_kelamin']);
                 redirect('employee_v2/dashboard');
             }
         } else { //jika login sebagai user
