@@ -53,7 +53,7 @@
           </tr>
         </table>
         <hr>
-        <button type="button" class="btn btn-primary btn-block btn-sm" data-toggle="modal" data-target="#changePasswordModal">
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#changePasswordModal">
           <i class="fa fa-key"></i> Ganti Password
         </button>
 
