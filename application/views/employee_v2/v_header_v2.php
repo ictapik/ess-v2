@@ -64,6 +64,7 @@
 
   <link rel="stylesheet" href="<?= base_url('assets/jquery.dataTables.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/buttons.dataTables.min.css') ?>">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="<?= base_url('assets/dataTables.bootstrap4.min.css') ?>">
   <!-- Spinner Loading -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/spinner/css-loader.css">
@@ -76,6 +77,7 @@
   <script src="<?= base_url('assets/vfs_fonts.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.html5.min.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.print.min.js') ?>"></script>
+  <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
   <link rel="stylesheet" href="<?= base_url('assets/backtotop/css/scrolltotop_arrow_style.css'); ?>">
   <script src="<?= base_url('assets/backtotop/js/scrolltotop_arrow_code.js'); ?>"></script>

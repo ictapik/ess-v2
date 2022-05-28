@@ -359,7 +359,7 @@ class Employee extends CI_Controller
         }
         $response .= '</select><br>';
         $response .= '<div class="table-responsive">';
-        $response .= '<table class="table table-bordered" id="tableSearchLog" width="100%" cellspacing="0">
+        $response .= '<table class="table table-bordered responsive nowrap" id="tableSearchLog" width="100%" cellspacing="0">
                      <thead>
                          <tr>
                              <th>Tanggal</th>
@@ -383,6 +383,7 @@ class Employee extends CI_Controller
         $response .= '</tbody>';
 
         $response .= '</table>';
+        $response .= '<script>$("#tableSearchLog").DataTable({});</script>';
         $response .= '</div>';
 
         if (empty($dataLog)) {

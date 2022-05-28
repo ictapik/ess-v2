@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-lg-6 col-6">
           <!-- small box -->
-          <div class="small-box bg-info">
+          <div class="small-box bg-success">
             <div class="inner">
               <h4>
                 <?php

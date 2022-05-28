@@ -14,9 +14,9 @@
   <section class="content">
     <!-- Default box -->
     <div class="card card-primary card-outline">
-      <div class=" card-body table-responsive p-2">
+      <div class="card-body p-2">
 
-        <table class="table table-bordered table-hover text-nowrap" id="myTable" width="100%" cellspacing="0">
+        <table class="table table-bordered table-hover responsive nowrap" id="myTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th class="text-center">Tanggal</th>
