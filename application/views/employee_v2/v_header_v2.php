@@ -76,9 +76,18 @@
   <script src="<?= base_url('assets/vfs_fonts.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.html5.min.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.print.min.js') ?>"></script>
+
+  <link rel="stylesheet" href="<?= base_url('assets/backtotop/css/scrolltotop_arrow_style.css'); ?>">
+  <script src="<?= base_url('assets/backtotop/js/scrolltotop_arrow_code.js'); ?>"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+
+  <div id="scrolltotop_parent" class="scrolltotop_hide_onload">
+    <div tabindex="0" id="scrolltotop_arrow">
+    </div>
+  </div>
+
   <div class="wrapper">
 
     <!-- Preloader -->
