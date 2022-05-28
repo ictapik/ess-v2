@@ -16,7 +16,7 @@
     <div class="card card-primary card-outline">
       <div class="card-body table-responsive p-2">
 
-        <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+        <table class="table table-bordered table-hover responsive nowrap" id="myTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>Tanggal</th>
@@ -56,9 +56,31 @@
       "serverSide": true,
       "ajax": "<?= base_url('employee/dataHistory'); ?>", //1 = approve, 2 = reject
       dom: 'lBfrtip',
-      buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-      ],
+      language: {
+        search: "",
+        searchPlaceholder: "Search..."
+      },
+      buttons: [{
+        extend: 'copyHtml5',
+        text: '<i class="fa fa-copy"></i>',
+        titleAttr: 'Copy'
+      }, {
+        extend: 'csvHtml5',
+        text: '<i class="fa fa-file-csv"></i>',
+        titleAttr: 'CSV'
+      }, {
+        extend: 'excelHtml5',
+        text: '<i class="fa fa-file-excel"></i>',
+        titleAttr: 'Excel'
+      }, {
+        extend: 'pdfHtml5',
+        text: '<i class="fa fa-file-pdf"></i>',
+        titleAttr: 'PDF'
+      }, {
+        extend: 'print',
+        text: '<i class="fa fa-print"></i>',
+        titleAttr: 'Print'
+      }, ],
       "order": [
         [0, "desc"],
       ],
