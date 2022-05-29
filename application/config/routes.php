@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = 'employee_v2/dashboard';
+$route['default_controller'] = 'employee/dashboard';
 $route['404_override'] = 'error404';
 
 

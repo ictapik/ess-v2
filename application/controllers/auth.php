@@ -30,7 +30,7 @@ class Auth extends CI_Controller
                 $this->session->set_userdata('akses', '1');
                 $this->session->set_userdata('ses_id', $data['User_ID']);
                 $this->session->set_userdata('ses_nama', $data['User_Name']);
-                redirect('employee_v2/dashboard');
+                redirect('employee/dashboard');
             } else {
                 $this->session->set_userdata('masuk', TRUE);
                 $this->session->set_userdata('akses', '3');
@@ -38,7 +38,7 @@ class Auth extends CI_Controller
                 $this->session->set_userdata('ses_nik', $data['id_karyawan']);
                 $this->session->set_userdata('ses_nama', $data['nama_karyawan']);
                 $this->session->set_userdata('ses_jk', $data['jenis_kelamin']);
-                redirect('employee_v2/dashboard');
+                redirect('employee/dashboard');
             }
         } else { //jika login sebagai user
             // jika username dan password tidak ditemukan atau salah

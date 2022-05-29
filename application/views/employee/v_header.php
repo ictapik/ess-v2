@@ -64,7 +64,7 @@
 
   <link rel="stylesheet" href="<?= base_url('assets/jquery.dataTables.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/buttons.dataTables.min.css') ?>">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="<?= base_url('assets/adminlte-template/plugins/datatables-responsive/css/responsive.bootstrap4.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/dataTables.bootstrap4.min.css') ?>">
   <!-- Spinner Loading -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/spinner/css-loader.css">
@@ -77,7 +77,9 @@
   <script src="<?= base_url('assets/vfs_fonts.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.html5.min.js') ?>"></script>
   <script src="<?= base_url('assets/buttons.print.min.js') ?>"></script>
-  <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+  <script src="<?= base_url('assets/adminlte-template/plugins/datatables-responsive/js/dataTables.responsive.min.js') ?>"></script>
+  <!-- Sweetalert -->
+  <script src="<?= base_url('assets/adminlte-template/plugins/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 
   <link rel="stylesheet" href="<?= base_url('assets/backtotop/css/scrolltotop_arrow_style.css'); ?>">
   <script src="<?= base_url('assets/backtotop/js/scrolltotop_arrow_code.js'); ?>"></script>
@@ -85,6 +87,10 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
+  <!-- Spinner Loding -->
+  <div id="spinner" class="loader loader-default" data-text="LOADING"></div>
+
+  <!-- Button back to top -->
   <div id="scrolltotop_parent" class="scrolltotop_hide_onload">
     <div tabindex="0" id="scrolltotop_arrow">
     </div>
@@ -121,7 +127,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="<?= base_url(); ?>" class="brand-link">
         <img src="<?= base_url(); ?>assets/img/logo-short.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 1">
         <span class="brand-text font-weight-light">Employee Self Service</span>
       </a>
@@ -143,7 +149,7 @@
             <img src="<?= base_url($img); ?>" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block"><?= $this->session->userdata('ses_nama'); ?></a>
+            <a href="<?= base_url(); ?>employee/profile" class="d-block"><?= $this->session->userdata('ses_nama'); ?></a>
           </div>
         </div>
 
@@ -161,7 +167,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee_v2/profile" class="nav-link">
+              <a href="<?= base_url(); ?>employee/profile" class="nav-link">
                 <i class="nav-icon far fa-user"></i>
                 <p>
                   Profile
@@ -169,7 +175,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee_v2/attendance" class="nav-link">
+              <a href="<?= base_url(); ?>employee/attendance" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
                   Absensi
@@ -177,7 +183,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee_v2/log" class="nav-link">
+              <a href="<?= base_url(); ?>employee/log" class="nav-link">
                 <i class="nav-icon fa fa-file-alt"></i>
                 <p>
                   Log In/Out
@@ -185,7 +191,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee_v2/history" class="nav-link">
+              <a href="<?= base_url(); ?>employee/history" class="nav-link">
                 <i class="nav-icon fa fa-history"></i>
                 <p>
                   Riwayat Pengajuan
