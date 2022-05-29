@@ -96,11 +96,24 @@ class Model_employee extends CI_Model
         )->row()->allIn;
     }
 
+    public function detailAllIn($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                a.*, s.name as shift
+            FROM attendance a
+            JOIN shift s ON (a.shift_id = s.shift_id)
+            WHERE nik = '$nik'
+            AND time_in <> '00:00:00'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->result();
+    }
+
     public function lateIn($nik, $start, $end)
     {
         return $this->db->query(
             "SELECT
-                COUNT(time_in) as lateIn
+                TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(a.time_in, s.start)))), '%H:%i:%s') AS lateIn
             FROM attendance a
             JOIN shift s ON (a.shift_id = s.shift_id)
             WHERE nik = '$nik'
@@ -108,6 +121,20 @@ class Model_employee extends CI_Model
             AND a.time_in > s.start
             AND iodate BETWEEN '$start' AND '$end'"
         )->row()->lateIn;
+    }
+
+    public function detailLateIn($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                a.iodate, a.time_in, TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i:%s') AS late, s.name as shift
+            FROM attendance a
+            JOIN shift s ON (a.shift_id = s.shift_id)
+            WHERE nik = '$nik'
+            AND time_in <> '00:00:00'
+            AND a.time_in > s.start
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->result();
     }
 
     public function timelineHistory($nik, $start, $end)
@@ -119,7 +146,7 @@ class Model_employee extends CI_Model
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
             WHERE nik = '$nik'
-            AND iodate BETWEEN '$start' AND '$end'
+            AND iodate BETWEEN '$start' AND date(now())
             ORDER BY iodate DESC"
         )->result();
     }

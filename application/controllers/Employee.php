@@ -106,6 +106,32 @@ class Employee extends CI_Controller
     $this->load->view('employee/v_footer');
   }
 
+  public function detailIn($startDate, $endDate)
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $data = array(
+      "detailAllIn" => $this->me->detailAllIn($nik, $startDate, $endDate),
+    );
+
+    $this->load->view('employee/v_header');
+    $this->load->view('employee/v_detail_in', $data);
+    $this->load->view('employee/v_footer');
+  }
+
+  public function detailLate($startDate, $endDate)
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $data = array(
+      "detailLateIn" => $this->me->detailLateIn($nik, $startDate, $endDate),
+    );
+
+    $this->load->view('employee/v_header');
+    $this->load->view('employee/v_detail_late', $data);
+    $this->load->view('employee/v_footer');
+  }
+
   public function showAttendance()
   {
     $nik = $this->session->userdata('ses_nik');

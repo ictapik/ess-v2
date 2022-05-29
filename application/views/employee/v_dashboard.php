@@ -15,25 +15,13 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-6 col-6">
-          <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
               <h4>
                 <?php
-                if (!empty($timeIn)) {
-                  if ($timeIn->time_in != "00:00:00") {
-                    echo "$timeIn->time_in";
-                  } elseif ($timeIn->time_in_m != "") {
-                    echo "$timeIn->time_in_m";
-                  } else {
-                    echo "--:--:--";
-                  }
-                } else {
-                  echo "--:--:--";
-                }
+                echo $allIn;
                 ?>
               </h4>
               <p>HADIR</p>
@@ -41,24 +29,22 @@
             <div class="icon">
               <i class="fa fa-clock"></i>
             </div>
+            <a href="<?= base_url('employee/detailIn/' . $startDate . '/' . $endDate); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-6 col-6">
-          <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h4><?= $lateIn ?><sup style="font-size:10px">days</sup></h4>
-
-              <p>TOTAL TERLAMBAT</p>
+              <h4><?= isset($lateIn) ? $lateIn : '--:--:--' ?></sup></h4>
+              <p>TELAT</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
+            <a href="<?= base_url('employee/detailLate/' . $startDate . '/' . $endDate); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
       </div>
-      <!-- /.row -->
     </div><!-- /.container-fluid -->
   </section>
   <!-- /.content -->
