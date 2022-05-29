@@ -15,36 +15,42 @@ class Auth extends CI_Controller
 
     function index()
     {
-        $this->load->view('v_login');
+        $this->load->view('v_login_2');
     }
 
     function login()
     {
         $username       = htmlspecialchars($this->input->post('id_karyawan', TRUE), ENT_QUOTES);
         $password       = htmlspecialchars($this->input->post('password', TRUE), ENT_QUOTES);
-        $cek_admin      = $this->model_login->auth($username, $password);
-        if ($cek_admin->num_rows() > 0) { //jika login sebagai admin
-            $data = $cek_admin->row_array();
-            $this->session->set_userdata('masuk', TRUE);
-            if ($data['User_Lvl'] == 'Doctor') { //Akses admin
-                $this->session->set_userdata('akses', '1');
-                $this->session->set_userdata('ses_id', $data['User_ID']);
-                $this->session->set_userdata('ses_nama', $data['User_Name']);
-                redirect('employee/dashboard');
-            } else {
-                $this->session->set_userdata('masuk', TRUE);
-                $this->session->set_userdata('akses', '3');
-                $this->session->set_userdata('ses_id', $data['id']);
-                $this->session->set_userdata('ses_nik', $data['id_karyawan']);
-                $this->session->set_userdata('ses_nama', $data['nama_karyawan']);
-                $this->session->set_userdata('ses_jk', $data['jenis_kelamin']);
-                redirect('employee/dashboard');
-            }
-        } else { //jika login sebagai user
-            // jika username dan password tidak ditemukan atau salah
-            echo $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\">Username atau Password salah !!</div></div>");
+
+        if ($username == "") {
             $url = base_url('auth');
             redirect($url);
+        } else {
+            $cek_admin      = $this->model_login->auth($username, $password);
+            if ($cek_admin->num_rows() > 0) { //jika login sebagai admin
+                $data = $cek_admin->row_array();
+                $this->session->set_userdata('masuk', TRUE);
+                if ($data['User_Lvl'] == 'Doctor') { //Akses admin
+                    $this->session->set_userdata('akses', '1');
+                    $this->session->set_userdata('ses_id', $data['User_ID']);
+                    $this->session->set_userdata('ses_nama', $data['User_Name']);
+                    redirect('employee/dashboard');
+                } else {
+                    $this->session->set_userdata('masuk', TRUE);
+                    $this->session->set_userdata('akses', '3');
+                    $this->session->set_userdata('ses_id', $data['id']);
+                    $this->session->set_userdata('ses_nik', $data['id_karyawan']);
+                    $this->session->set_userdata('ses_nama', $data['nama_karyawan']);
+                    $this->session->set_userdata('ses_jk', $data['jenis_kelamin']);
+                    redirect('employee/dashboard');
+                }
+            } else { //jika login sebagai user
+                // jika username dan password tidak ditemukan atau salah
+                echo $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\">Username atau Password salah !!</div></div>");
+                $url = base_url('auth');
+                redirect($url);
+            }
         }
     }
 
