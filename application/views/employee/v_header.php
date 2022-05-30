@@ -171,7 +171,7 @@
               <a href="<?= base_url(); ?>employee/profile" class="nav-link">
                 <i class="nav-icon far fa-user"></i>
                 <p>
-                  Profile
+                  Profil
                 </p>
               </a>
             </li>
