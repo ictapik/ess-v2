@@ -56,6 +56,7 @@
       "serverSide": true,
       "ajax": "<?= base_url('employee/dataHistory'); ?>", //1 = approve, 2 = reject
       dom: 'lBfrtip',
+      pagingType: 'simple',
       language: {
         search: "",
         searchPlaceholder: "Search..."

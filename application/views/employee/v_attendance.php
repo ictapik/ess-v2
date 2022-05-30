@@ -118,9 +118,10 @@
       "serverSide": true,
       "ajax": "<?= base_url('/employee/showAttendance'); ?>",
       dom: 'lBfrtip',
+      pagingType: 'simple',
       language: {
         search: "",
-        searchPlaceholder: "Search..."
+        searchPlaceholder: "Search...",
       },
       buttons: [{
         extend: 'copyHtml5',

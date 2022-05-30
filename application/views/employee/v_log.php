@@ -75,6 +75,7 @@
         [0, 'desc']
       ],
       dom: 'lBfrtip',
+      pagingType: 'simple',
       language: {
         search: "",
         searchPlaceholder: "Search..."
