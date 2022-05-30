@@ -24,6 +24,7 @@ class Auth extends CI_Controller
         $password       = htmlspecialchars($this->input->post('password', TRUE), ENT_QUOTES);
 
         if ($username == "") {
+            echo $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\"><i class=\"fa fa-exclamation-triangle\"></i> Isi semua data dengan benar.</div></div>");
             $url = base_url('auth');
             redirect($url);
         } else {
@@ -47,7 +48,7 @@ class Auth extends CI_Controller
                 }
             } else { //jika login sebagai user
                 // jika username dan password tidak ditemukan atau salah
-                echo $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\">Username atau Password salah !!</div></div>");
+                echo $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\"><i class=\"fa fa-exclamation-triangle\"></i> QR/Email/Password salah.</div></div>");
                 $url = base_url('auth');
                 redirect($url);
             }

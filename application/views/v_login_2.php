@@ -27,6 +27,8 @@
       <div class="card-body">
         <p class="login-box-msg">SILAHKAN MASUK</p>
 
+        <?= $this->session->flashdata('pesan'); ?>
+
         <form action="<?= base_url('auth/login'); ?>" method="post">
           <div class="input-group mb-3">
             <input type="text" name="id_karyawan" class="form-control" placeholder="QR atau Email">
