@@ -37,7 +37,11 @@
           </tr>
           <tr>
             <th><i class="fa fa-at"></th>
-            <td><?= $employee->email; ?></td>
+            <td><?= $employee->email != '' ? $employee->email : '-'; ?></td>
+          </tr>
+          <tr>
+            <th><i class="fa fa-phone"></th>
+            <td><?= $employee->phone != '' ? $employee->phone : '-'; ?></td>
           </tr>
           <tr>
             <th><i class="fa fa-building"></i></th>
@@ -47,10 +51,10 @@
             <th><i class="fa fa-calendar-alt"></i></th>
             <td><?= $employee->shift; ?></td>
           </tr>
-          <tr>
+          <!-- <tr>
             <th><i class="fa fa-map-marker-alt"></i></th>
             <td><?= $employee->alamat; ?></td>
-          </tr>
+          </tr> -->
         </table>
         <hr>
         <button type="button" class="btn btn-primary btn-block" onclick="showModal();">
