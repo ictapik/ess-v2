@@ -51,6 +51,8 @@ class Model_employee extends CI_Model
                 JOIN shift_type st ON u.shift_type_id = st.shift_type_id
                 WHERE a.nik = '$nik'
                 AND (CAST(a.timestamp AS DATE) BETWEEN '$date_at_time' AND '$tomorrow')
+                AND a.id NOT IN (SELECT id_in FROM attendance WHERE id_in <> 0)
+                AND a.id NOT IN (SELECT id_out FROM attendance WHERE id_out <> 0)
                 ORDER BY a.timestamp DESC"
             )->result_array();
             return $data;
@@ -149,5 +151,15 @@ class Model_employee extends CI_Model
             AND iodate BETWEEN '$start' AND date(now())
             ORDER BY iodate DESC"
         )->result();
+    }
+
+    public function getEmpByEmail($email)
+    {
+        return $this->db->query(
+            "SELECT
+                *
+            FROM tb_user
+            WHERE email = '$email'"
+        )->row();
     }
 }
