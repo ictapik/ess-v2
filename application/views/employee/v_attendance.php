@@ -19,20 +19,24 @@
         <table class="table table-bordered table-hover responsive nowrap" id="myTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th class="text-center">Tanggal</th>
-              <th class="text-center">Masuk</th>
-              <th class="text-center">Keluar</th>
+              <th class="text-center" data-priority="1">Tanggal</th>
+              <th class="text-center">Cal</th>
+              <th class="text-center">Absen</th>
+              <th class="text-center" data-priority="2">Masuk</th>
+              <th class="text-center" data-priority="3">Keluar</th>
               <th class="text-center">Shift</th>
             </tr>
           </thead>
-          <tfoot>
+          <!-- <tfoot>
             <tr>
               <th class="text-center">Tanggal</th>
+              <th class="text-center">Cl</th>
+              <th class="text-center">Absen</th>
               <th class="text-center">Masuk</th>
               <th class="text-center">Keluar</th>
               <th class="text-center">Shift</th>
             </tr>
-          </tfoot>
+          </tfoot> -->
         </table>
 
       </div>
@@ -63,6 +67,7 @@
             <a class="nav-link font-weight-bold" id="manual-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Manual</a>
           </li>
         </ul>
+
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div id="response" class="mt-2"></div>
@@ -154,13 +159,26 @@
           let tgl = new Date(row.tanggal);
           let color;
           if (tgl.getDay() == 6) { //saturday
-            color = 'blue';
+            color = '#0069d9';
           } else if (tgl.getDay() == 0) { //sunday
-            color = 'red';
+            color = '#dc3545';
           } else { //weekday
-            color = '';
+            color = '#28a745';
           }
           return "<span style='color:" + color + "'>" + data + "</span>";
+        }
+      }, {
+        "data": "calendar",
+        className: "dt-center",
+      }, {
+        "data": "absent",
+        className: "dt-center",
+        "render": function(data, type, row) {
+          if (data == null) {
+            return "-";
+          } else {
+            return data;
+          }
         }
       }, {
         "data": "time_in",
@@ -192,6 +210,13 @@
         }
       }, {
         "data": "shift_name",
+        "render": function(data, type, row) {
+          if (data == null) {
+            return "-";
+          } else {
+            return data;
+          }
+        }
       }, ],
       "lengthMenu": [
         [10, 25, 50, 100, 500, -1],

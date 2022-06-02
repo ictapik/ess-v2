@@ -192,12 +192,27 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url(); ?>employee/history" class="nav-link">
-                <i class="nav-icon fa fa-history"></i>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-history"></i>
                 <p>
-                  Riwayat Pengajuan
+                  Riwayat
+                  <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?= base_url(); ?>employee/history" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Log Manual</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?= base_url(); ?>employee/history_leave" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Cuti</p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a href="<?= base_url(); ?>auth/logout" class="nav-link">

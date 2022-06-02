@@ -23,13 +23,31 @@ class Employee extends CI_Controller
     $endDate = strtotime($month . "-24");
     $start = date("Y-m-d", strtotime("-1 Months", $endDate));
 
+    $endLM = date("Y-m-d", strtotime("-1 Months", strtotime($month . "-25")));
+    $startLM = date("Y-m-d", strtotime("-2 Months", $endDate));
+
     $data = array(
       'timeIn' => $this->me->timeIn($nik),
       'startDate' => $start,
       'endDate' => $end,
+      'startDateLM' => $startLM,
+      'endDateLM' => $endLM,
+
       'allIn' => $this->me->allIn($nik, $start, $end),
+      'allLeave' => $this->me->allLeave($nik, $start, $end),
+      'allSick' => $this->me->allSick($nik, $start, $end),
+      'allAlpha' => $this->me->allAlpha($nik, $start, $end),
+      'allPermit' => $this->me->allPermit($nik, $start, $end),
       'lateIn' => $this->me->lateIn($nik, $start, $end),
       'timelineHistory' => $this->me->timelineHistory($nik, $start, $end),
+
+      'allInLM' => $this->me->allIn($nik, $startLM, $endLM),
+      'allLeaveLM' => $this->me->allLeave($nik, $startLM, $endLM),
+      'allSickLM' => $this->me->allSick($nik, $startLM, $endLM),
+      'allAlphaLM' => $this->me->allAlpha($nik, $startLM, $endLM),
+      'allPermitLM' => $this->me->allPermit($nik, $startLM, $endLM),
+      'lateInLM' => $this->me->lateIn($nik, $startLM, $endLM),
+      'timelineHistoryLM' => $this->me->timelineHistoryLM($nik, $startLM, $endLM),
     );
 
     $this->load->view('employee/v_header');
@@ -87,22 +105,8 @@ class Employee extends CI_Controller
 
   public function history()
   {
-    $nik = $this->session->userdata('ses_nik');
-
-    $sql = "SELECT 
-                    am.nik, am.iodate, am.time, am.type, am.description, am.isapproved, s.name AS shift, u.nama_karyawan, d.name AS department
-                FROM attendance_manual  am
-                JOIN tb_user u ON (am.nik = u.id_karyawan)
-                JOIN department d ON (u.department_id = d.department_id)
-                JOIN shift s ON (am.shift_id = s.shift_id)
-                WHERE nik = '$nik' 
-                ORDER BY am.attendance_manual_id DESC";
-    $data = array(
-      "history" => $this->db->query($sql)->result(),
-    );
-
     $this->load->view('employee/v_header');
-    $this->load->view('employee/v_history', $data);
+    $this->load->view('employee/v_history');
     $this->load->view('employee/v_footer');
   }
 
@@ -138,10 +142,11 @@ class Employee extends CI_Controller
 
     // DB table to use
     $table = "(SELECT 
-                        a.*,  CAST(SUBSTRING(a.attendance_id, 1,8) AS date) AS tanggal, UPPER(u.nama_karyawan) AS nama_karyawan, d.name AS department, s.name AS shift_name
+                        a.*,  CAST(SUBSTRING(a.attendance_id, 1,8) AS date) AS tanggal, UPPER(u.nama_karyawan) AS nama_karyawan, d.name AS department, s.name AS shift_name, ab.value as absent
                     FROM attendance a
                     JOIN tb_user u ON (a.nik = u.id_karyawan)
                     LEFT JOIN shift s ON (a.shift_id = s.shift_id)
+                    LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
                     JOIN department d ON (u.department_id = d.department_id)
                     WHERE nik = '$nik') temp";
 
@@ -158,6 +163,8 @@ class Employee extends CI_Controller
       array('db' => 'nama_karyawan', 'dt' => 'nama_karyawan'),
       array('db' => 'department', 'dt' => 'department'),
       array('db' => 'tanggal', 'dt' => 'tanggal'),
+      array('db' => 'calendar', 'dt' => 'calendar'),
+      array('db' => 'absent', 'dt' => 'absent'),
       array('db' => 'time_in', 'dt' => 'time_in'),
       array('db' => 'time_in_m', 'dt' => 'time_in_m'),
       array('db' => 'time_out', 'dt' => 'time_out'),
@@ -421,5 +428,103 @@ class Employee extends CI_Controller
         )
       );
     }
+  }
+
+  public function getUserByID($id)
+  {
+    $data = $this->db->query(
+      "SELECT * FROM tb_user WHERE id = $id"
+    )->row();
+
+    echo json_encode($data);
+  }
+
+  public function processEdit()
+  {
+    $id = $this->input->post('id');
+    $email = $this->input->post('email');
+    $phone = $this->input->post('phone');
+
+    $data = array(
+      'email' => $email,
+      'phone' => $phone
+    );
+
+    $this->db->where('id', $id);
+    $this->db->update('tb_user', $data);
+
+    echo json_encode(
+      array(
+        "status" => true,
+        "messsage" => "success",
+      )
+    );
+  }
+
+  public function changeType()
+  {
+    $log_id = $this->input->post('log_id');
+    $type = $this->input->post('type');
+
+    $this->db->query("UPDATE tb_attempt SET type = '$type' WHERE id = $log_id");
+
+    echo json_encode(
+      array(
+        "status" => true,
+        "messsage" => "success",
+      )
+    );
+  }
+
+  public function history_leave()
+  {
+    $this->load->view('employee/v_header');
+    $this->load->view('employee/v_history_leave');
+    $this->load->view('employee/v_footer');
+  }
+
+  public function dataHistoryLeave()
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    // DB table to use
+    $table = "(SELECT
+                lr.l_request_id, lr.start_date, lr.end_date, lr.amount_leave, lr.status
+              FROM cuti_db.leave_request lr
+              JOIN cuti_db.employe e ON (lr.employe_id = e.employe_id)
+              WHERE e.nik = '$nik') temp";
+
+    // Table's primary key
+    $primaryKey = 'l_request_id';
+
+    // Array of database columns which should be read and sent back to DataTables.
+    // The `db` parameter represents the column name in the database, while the `dt`
+    // parameter represents the DataTables column identifier. In this case simple
+    // indexes
+    $columns = array(
+      array('db' => 'l_request_id', 'dt' => 'l_request_id'),
+      array('db' => 'start_date', 'dt' => 'start_date'),
+      array('db' => 'end_date', 'dt' => 'end_date'),
+      array('db' => 'amount_leave', 'dt' => 'amount_leave'),
+      array('db' => 'status', 'dt' => 'status'),
+      // array('db' => 'iodate', 'dt' => 'iodate'),
+      // array('db' => 'time', 'dt' => 'time'),
+      // array('db' => 'type', 'dt' => 'type'),
+      // array('db' => 'shift', 'dt' => 'shift'),
+      // array('db' => 'description', 'dt' => 'description'),
+      // array('db' => 'status', 'dt' => 'status'),
+    );
+
+    // SQL server connection information
+    $sql_details = array(
+      'user' => 'root',
+      'pass' => '',
+      'db'   => 'db_absen',
+      'host' => 'localhost'
+    );
+
+    echo json_encode(
+      SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+    );
   }
 }

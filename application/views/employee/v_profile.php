@@ -57,7 +57,10 @@
           </tr> -->
         </table>
         <hr>
-        <button type="button" class="btn btn-primary btn-block" onclick="showModal();">
+        <button type="button" class="btn btn-primary btn-block" onclick="showEditModal(<?= $employee->id; ?>);">
+          <i class="fa fa-edit"></i> Ubah Data
+        </button>
+        <button type="button" class="btn btn-primary btn-block" onclick="showChangPWDModal();">
           <i class="fa fa-key"></i> Ganti Password
         </button>
 
@@ -67,6 +70,48 @@
     </div>
   </section>
 </div>
+
+<!-- Modal edit data -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form action="post" id="formEdit">
+          <div class=" form-group">
+            <label for="exampleInputEmail1">NIK</label>
+            <input type="hidden" name="id" class="form-control" id="exampleInputEmail1" readonly>
+            <input type="text" name="nik" class="form-control" id="exampleInputEmail1" readonly>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nama</label>
+            <input type="text" name="nama" class="form-control" id="exampleInputEmail1" readonly>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Telpon</label>
+            <input type="text" name="phone" class="form-control" id="exampleInputEmail1" required>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="processEdit()" class="btn btn-primary">Simpan</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Modal ganti password -->
 <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -105,7 +150,7 @@
 </div>
 
 <script>
-  function showModal() {
+  function showChangPWDModal() {
     $('#changePasswordModal').modal('show');
 
     $('[name="old_password"]').val('');
@@ -182,6 +227,69 @@
           }
         });
       }
+    }
+  }
+
+  function showEditModal(id) {
+    $('[name="email"]').removeClass('is-invalid')
+    $('[name="phone"]').removeClass('is-invalid')
+
+    $('#editModal').modal('show');
+    $.ajax({
+      url: "<?php echo site_url('employee/getUserByID'); ?>/" + id,
+      type: "post",
+      dataType: "json",
+      success: function(data) {
+        $('[name="id"]').val(data.id);
+        $('[name="nik"]').val(data.id_karyawan);
+        $('[name="nama"]').val(data.nama_karyawan);
+        $('[name="email"]').val(data.email);
+        $('[name="phone"]').val(data.phone);
+
+      },
+    });
+  }
+
+  function processEdit() {
+    $('#spinner').addClass('is-active');
+
+    let email = $('[name="email"]').val();
+    let phone = $('[name="phone"]').val();
+
+    if (email == '' || phone == '') {
+      email == '' ? $('[name="email"]').addClass('is-invalid') : '';
+      phone == '' ? $('[name="phone"]').addClass('is-invalid') : '';
+      $('#spinner').removeClass('is-active');
+      Swal.fire({
+        title: 'Gagal',
+        text: 'Semua data wajib diisi.',
+        icon: 'error',
+        timer: 2500
+      });
+    } else {
+      $.ajax({
+        url: "<?= base_url(); ?>employee/processEdit",
+        type: "post",
+        data: $('#formEdit').serialize(),
+        dataType: "JSON",
+        success: function(data) {
+          console.log(data);
+          $('#changePasswordModal').modal('hide');
+          Swal.fire({
+            title: 'Sukses',
+            text: 'Data berhasil diubah.',
+            icon: 'success',
+            timer: 2500
+          });
+          setTimeout(location.reload(), 2500);
+          // }
+          $('#spinner').removeClass('is-active');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('Error adding / update data');
+          $('#spinner').removeClass('is-active');
+        }
+      });
     }
   }
 </script>

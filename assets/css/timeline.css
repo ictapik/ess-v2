@@ -107,7 +107,7 @@
 
 .timeline-header {
   padding-bottom: 10px;
-  border-bottom: 1px solid #e2e7eb;
+  /* border-bottom: 1px solid #e2e7eb; */
   line-height: 30px
 }
 
@@ -122,7 +122,7 @@
 
 .timeline-header .username {
   font-size: 12px;
-  font-weight: 600
+  /* font-weight: 600 */
 }
 
 .timeline-header .username,

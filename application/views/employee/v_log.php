@@ -41,7 +41,7 @@
                   $badge = "danger";
                 }
                 ?>
-                <span class="badge badge-<?= $badge; ?>"><?= $type_text; ?></span>
+                <span onclick="changeType(<?= $log->id; ?>,'<?= $log->inout_type; ?>')" class="badge badge-<?= $badge; ?>"><?= $type_text; ?></span>
               </td>
               <td><?= $log->shift_type_name; ?></td>
               <td class="text-center"><?= $log->source; ?></td>
@@ -103,4 +103,52 @@
       }, ],
     });
   });
+
+  function changeType(log_id, type) {
+    Swal.fire({
+      title: 'Ubah Tipe',
+      text: "Yakin akan mengubah?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        $('#spinner').addClass('is-active');
+
+        if (type == '0001000') {
+          ch_type = '0002000';
+        } else {
+          ch_type = '0001000';
+        }
+
+        $.ajax({
+          url: "<?= base_url(); ?>employee/changeType",
+          type: "post",
+          data: {
+            log_id: log_id,
+            type: ch_type
+          },
+          dataType: "JSON",
+          success: function(data) {
+            console.log(data);
+            Swal.fire({
+              title: 'Sukses',
+              text: 'Tipe berhasil diubah.',
+              icon: 'success',
+              timer: 2500
+            });
+            setTimeout(location.reload(), 3000);
+            $('#spinner').removeClass('is-active');
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error adding / update data');
+            $('#spinner').removeClass('is-active');
+          }
+        });
+      }
+    });
+  }
 </script>

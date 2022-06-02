@@ -98,6 +98,58 @@ class Model_employee extends CI_Model
         )->row()->allIn;
     }
 
+    public function allLeave($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                count(time_in) AS allIn
+            FROM attendance
+            WHERE nik = '$nik'
+            AND (absent_id = 1 OR absent_id = 2)
+            -- AND time_in <> '00:00:00'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->row()->allIn;
+    }
+
+    public function allSick($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                count(time_in) AS allIn
+            FROM attendance
+            WHERE nik = '$nik'
+            AND absent_id = 4
+            -- AND time_in <> '00:00:00'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->row()->allIn;
+    }
+
+    public function allPermit($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                count(time_in) AS allIn
+            FROM attendance
+            WHERE nik = '$nik'
+            AND absent_id = 3
+            -- AND time_in <> '00:00:00'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->row()->allIn;
+    }
+
+    public function allAlpha($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                count(time_in) AS allIn
+            FROM attendance
+            WHERE nik = '$nik'
+            AND absent_id = 5
+            -- AND time_in <> '00:00:00'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->row()->allIn;
+    }
+
     public function detailAllIn($nik, $start, $end)
     {
         return $this->db->query(
@@ -143,12 +195,36 @@ class Model_employee extends CI_Model
     {
         return $this->db->query(
             "SELECT
-                a.attendance_id, a.iodate, a.time_in, a.time_out, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift
+                a.attendance_id, a.iodate, a.time_in, s.start,
+                CASE
+                	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
+                	ELSE '-'
+                END late,
+                a.time_out, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
             FROM attendance a
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
             WHERE nik = '$nik'
             AND iodate BETWEEN '$start' AND date(now())
+            ORDER BY iodate DESC"
+        )->result();
+    }
+
+    public function timelineHistoryLM($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                a.attendance_id, a.iodate, a.time_in, s.start,
+                CASE
+                	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
+                	ELSE '-'
+                END late,
+                a.time_out, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
+            FROM attendance a
+            LEFT JOIN shift s ON (a.shift_id = s.shift_id)
+            LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
+            WHERE nik = '$nik'
+            AND iodate BETWEEN '$start' AND '$end'
             ORDER BY iodate DESC"
         )->result();
     }
