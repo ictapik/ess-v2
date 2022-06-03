@@ -36,6 +36,7 @@ class Employee extends CI_Controller
       'startDateLM' => $startLM,
       'endDateLM' => $endLM,
 
+      'workCal' => $this->me->workCal($nik, $start, $end),
       'allIn' => $this->me->allIn($nik, $start, $end),
       'allLeave' => $this->me->allLeave($nik, $start, $end),
       'allSick' => $this->me->allSick($nik, $start, $end),
@@ -45,6 +46,7 @@ class Employee extends CI_Controller
       'manualAtt' => $this->me->manualAtt($nik, $start, $end),
       'timelineHistory' => $this->me->timelineHistory($nik, $start, $end),
 
+      'workCalLM' => $this->me->workCal($nik, $startLM, $endLM),
       'allInLM' => $this->me->allIn($nik, $startLM, $endLM),
       'allLeaveLM' => $this->me->allLeave($nik, $startLM, $endLM),
       'allSickLM' => $this->me->allSick($nik, $startLM, $endLM),
