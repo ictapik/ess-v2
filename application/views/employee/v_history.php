@@ -39,6 +39,10 @@
           </tfoot>
         </table>
 
+        <span class="badge badge-secondary"><i class="fa fa-clock"></i></span> = Menunggu<br>
+        <span class="badge badge-success"><i class="fa fa-check"></i></span> = Disetujui<br>
+        <span class="badge badge-danger"><i class="fa fa-times-circle"></i></span> = Ditolak<br>
+
       </div>
       <div class="card-footer">
       </div>
@@ -103,11 +107,11 @@
         className: "dt-center",
         "render": function(data, type, row) {
           if (data == 1) {
-            return "<span class='badge badge-success'>Diterima</span>";
+            return "<span class='badge badge-success'><i class='fa fa-check'></i></span>";
           } else if (data == 2) {
-            return "<span class='badge badge-danger'>Ditolak</span>";
+            return "<span class='badge badge-danger'><i class='fa fa-times-circle'></i></span>";
           } else {
-            return "<span class='badge badge-secondary'>Menunggu</span>";
+            return "<span class='badge badge-secondary'><i class='fa fa-clock'></i></span>";
           }
         }
       }, ],

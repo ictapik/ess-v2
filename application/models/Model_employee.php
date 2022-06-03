@@ -86,6 +86,18 @@ class Model_employee extends CI_Model
         )->row();
     }
 
+    public function workCal($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                COUNT(attendance_id) as workCal
+            FROM attendance
+            WHERE nik = '$nik'
+            AND calendar = 'WD'
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->row()->workCal;
+    }
+
     public function allIn($nik, $start, $end)
     {
         return $this->db->query(
@@ -93,7 +105,7 @@ class Model_employee extends CI_Model
                 count(time_in) AS allIn
             FROM attendance
             WHERE nik = '$nik'
-            AND time_in <> '00:00:00'
+            AND (time_in <> '00:00:00' OR time_in_m <> '')
             AND iodate BETWEEN '$start' AND '$end'"
         )->row()->allIn;
     }
@@ -177,6 +189,18 @@ class Model_employee extends CI_Model
         )->row()->lateIn;
     }
 
+    public function manualAtt($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                COUNT(attendance_id) AS manualAtt
+            FROM attendance
+            WHERE nik = '$nik'
+            AND (time_in_m <> '' OR time_out_m <> '')
+            AND iodate BETWEEN '$start' AND '$end';"
+        )->row()->manualAtt;
+    }
+
     public function detailLateIn($nik, $start, $end)
     {
         return $this->db->query(
@@ -200,7 +224,7 @@ class Model_employee extends CI_Model
                 	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
                 	ELSE '-'
                 END late,
-                a.time_out, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
+                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
             FROM attendance a
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
@@ -219,7 +243,7 @@ class Model_employee extends CI_Model
                 	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
                 	ELSE '-'
                 END late,
-                a.time_out, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
+                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
             FROM attendance a
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)

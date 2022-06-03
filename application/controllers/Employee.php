@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Employee extends CI_Controller
 {
+  public $CI = NULL;
+
   function __construct()
   {
     parent::__construct();
@@ -12,6 +14,7 @@ class Employee extends CI_Controller
     }
     $this->load->model('model_employee', 'me');
     $this->load->library('ssp');
+    $this->CI = &get_instance();
   }
 
   public function dashboard()
@@ -19,11 +22,11 @@ class Employee extends CI_Controller
     $nik = $this->session->userdata('ses_nik');
 
     $month = date('Y-m');
-    $end = $month . "-25";
-    $endDate = strtotime($month . "-24");
+    $end = $month . "-24";
+    $endDate = strtotime($month . "-25");
     $start = date("Y-m-d", strtotime("-1 Months", $endDate));
 
-    $endLM = date("Y-m-d", strtotime("-1 Months", strtotime($month . "-25")));
+    $endLM = date("Y-m-d", strtotime("-1 Months", strtotime($month . "-24")));
     $startLM = date("Y-m-d", strtotime("-2 Months", $endDate));
 
     $data = array(
@@ -39,6 +42,7 @@ class Employee extends CI_Controller
       'allAlpha' => $this->me->allAlpha($nik, $start, $end),
       'allPermit' => $this->me->allPermit($nik, $start, $end),
       'lateIn' => $this->me->lateIn($nik, $start, $end),
+      'manualAtt' => $this->me->manualAtt($nik, $start, $end),
       'timelineHistory' => $this->me->timelineHistory($nik, $start, $end),
 
       'allInLM' => $this->me->allIn($nik, $startLM, $endLM),
@@ -47,6 +51,7 @@ class Employee extends CI_Controller
       'allAlphaLM' => $this->me->allAlpha($nik, $startLM, $endLM),
       'allPermitLM' => $this->me->allPermit($nik, $startLM, $endLM),
       'lateInLM' => $this->me->lateIn($nik, $startLM, $endLM),
+      'manualAttLM' => $this->me->manualAtt($nik, $startLM, $endLM),
       'timelineHistoryLM' => $this->me->timelineHistoryLM($nik, $startLM, $endLM),
     );
 
@@ -526,5 +531,15 @@ class Employee extends CI_Controller
     echo json_encode(
       SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
     );
+  }
+
+  public function holidayName($date)
+  {
+    return $this->db->query(
+      "SELECT
+        *
+      FROM holiday
+      WHERE holiday_date = '$date'"
+    )->row();
   }
 }

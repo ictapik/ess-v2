@@ -54,7 +54,7 @@
       <div class="modal-header">
         <h4 class="modal-title">Add Time <span id="typeTitle"></span></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
+          <span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
       </div>
 
       <div class="modal-body form">
@@ -97,14 +97,14 @@
                   </div>
                 </div>
               </form>
+              <button type="button" id="btnSaveTimePropose" onclick="saveTimePropose()" class="btn btn-primary btn-block" style="display:none">Ajukan</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" id="btnSaveTimePropose" onclick="saveTimePropose()" class="btn btn-info" style="display:none">Ajukan</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button> -->
       </div>
     </div>
     <!-- /.modal-content -->
@@ -262,6 +262,8 @@
         $("#new_description").removeClass("is-invalid");
 
         $("#add_type").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#divrow").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#hari").remove(); //jika sudah ada maka hapus terlebih dahulu
         $("#iodate").remove(); //jika sudah ada maka hapus terlebih dahulu
         $("#add_shift").remove(); //jika sudah ada maka hapus terlebih dahulu
         $("#attendance_id").remove(); //jika sudah ada maka hapus terlebih dahulu
@@ -287,13 +289,40 @@
           }
         });
 
-        $("#form").prepend('<p><input type="hidden" class="form-control" value="' + id + '" name="attendance_id" id="attendance_id" readonly></p><p><input type="hidden" class="form-control" value="' + type + '" name="add_type" id="add_type" readonly></p><p><input name="iodate" value="' + dateAtt + '"id="iodate" class="form-control" id="iodate" type="text" readonly></p>');
+        $("#form").prepend('<input type="hidden" class="form-control" value="' + id + '" name="attendance_id" id="attendance_id" readonly><input type="hidden" class="form-control" value="' + type + '" name="add_type" id="add_type" readonly><div class="row pt-3 pb-3" id="divrow"><div class="col"><input name="iodate" value="' + hari(new Date(dateAtt).getDay()) + '"id="hari" class="form-control" id="iodate" type="text" readonly></div><div class="col"><input name="iodate" value="' + dateAtt + '"id="iodate" class="form-control" id="iodate" type="text" readonly></div></div>');
       },
       error: function(jqXHR, textStatus, errorThrown) {
         alert('Error adding / update data');
         $('#spinner').removeClass('is-active');
       }
     });
+  }
+
+  function hari(hari) {
+    switch (hari) {
+      case 0:
+        hari = "Minggu";
+        break;
+      case 1:
+        hari = "Senin";
+        break;
+      case 2:
+        hari = "Selasa";
+        break;
+      case 3:
+        hari = "Rabu";
+        break;
+      case 4:
+        hari = "Kamis";
+        break;
+      case 5:
+        hari = "Jum'at";
+        break;
+      case 6:
+        hari = "Sabtu";
+        break;
+    }
+    return hari;
   }
 
   function saveTimePropose() {
