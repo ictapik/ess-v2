@@ -156,8 +156,18 @@ class Model_employee extends CI_Model
                 count(time_in) AS allIn
             FROM attendance
             WHERE nik = '$nik'
-            AND absent_id = 5
-            -- AND time_in <> '00:00:00'
+            AND (
+                absent_id = 5
+                OR
+                (
+                    calendar = 'WD'
+                    AND time_in = '00:00:00'
+                    AND time_out = '00:00:00'
+                    AND time_in_m = ''
+                    AND time_out_m = ''
+                    AND absent_id NOT IN (1, 2, 3, 4, 6)
+                )
+            )
             AND iodate BETWEEN '$start' AND '$end'"
         )->row()->allIn;
     }
