@@ -234,7 +234,7 @@ class Model_employee extends CI_Model
                 	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
                 	ELSE '-'
                 END late,
-                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
+                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, a.late_reason, ab.name as absent_name, s.name as shift, s.start
             FROM attendance a
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)
@@ -253,7 +253,7 @@ class Model_employee extends CI_Model
                 	WHEN s.start IS NOT NULL AND a.time_in > s.start THEN TIME_FORMAT(TIMEDIFF(a.time_in, s.start), '%H:%i')
                 	ELSE '-'
                 END late,
-                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, ab.name as absent_name, s.name as shift, s.start
+                a.time_out, a.time_in_m, a.time_out_m, a.calendar, a.absent_id, a.late_reason, ab.name as absent_name, s.name as shift, s.start
             FROM attendance a
             LEFT JOIN shift s ON (a.shift_id = s.shift_id)
             LEFT JOIN absent ab ON (a.absent_id = ab.absent_id)

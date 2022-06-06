@@ -26,21 +26,21 @@
         <img src="<?= base_url(); ?>assets/img/logo-oval.png" width="60%"></img>
       </div>
       <div class="card-body">
-        <p class="login-box-msg">SILAHKAN MASUK</p>
+        <p class="login-box-msg">UBAH KATA SANDI</p>
 
         <?= $this->session->flashdata('pesan'); ?>
 
         <form action="<?= base_url('auth/login'); ?>" method="post">
           <div class="input-group mb-3">
-            <input type="text" name="id_karyawan" class="form-control" placeholder="QR atau Email">
+            <input type="text" name="password" class="form-control" placeholder="Kata sandi baru">
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-qrcode"></span>
+                <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Kata sandi">
+            <input type="password" name="password" class="form-control" placeholder="Ulangi kata sandi baru">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -48,17 +48,17 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-8">
+            <!-- <div class="col-8">
               <div class="icheck-primary">
                 <input type="checkbox" id="remember">
                 <label for="remember">
                   Ingat Saya
                 </label>
               </div>
-            </div>
+            </div> -->
             <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+            <div class="col">
+              <button type="submit" class="btn btn-primary btn-block">Simpan</button>
             </div>
             <!-- /.col -->
           </div>
@@ -74,9 +74,9 @@
         </div> -->
         <!-- /.social-auth-links -->
 
-        <p class="mb-1">
+        <!-- <p class="mb-1">
           <a href="forgot-password.html">Lupa kata sandi?</a>
-        </p>
+        </p> -->
         <!-- <p class="mb-0">
           <a href="register.html" class="text-center">Register a new membership</a>
         </p> -->

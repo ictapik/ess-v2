@@ -146,11 +146,15 @@
                     <span class="userimage">
                       <?php
                       if ($th->time_in != "00:00:00" && $th->time_in > $th->start) {
-                        echo '<img src="' . base_url() . 'assets/img/icon-late.png" alt="">';
+                        echo '<img onclick="lateReason(' . $th->attendance_id . ', \'' . $th->iodate . '\')" src="' . base_url() . 'assets/img/icon-late.png" alt="">';
                       } elseif (($th->time_in != "00:00:00" && $th->time_in <= $th->start) || $th->time_in_m != "") {
                         echo '<img src="' . base_url() . 'assets/img/icon-double-checklist.png" alt="">';
-                      } elseif ($th->time_in == "00:00:00" && ($th->calendar == 'H' || $th->calendar == 'RH' || $th->calendar == 'NH')) {
+                      } elseif ($th->time_in == "00:00:00" && $th->calendar == 'H') {
                         echo '<img src="' . base_url() . 'assets/img/icon-holiday.png" alt="">';
+                      } elseif ($th->calendar == 'NH') {
+                        echo '<img src="' . base_url() . 'assets/img/icon-national-holiday.png" alt="">';
+                      } elseif ($th->calendar == 'RH') {
+                        echo '<img src="' . base_url() . 'assets/img/icon-religion-holiday.png" alt="">';
                       } elseif ($th->time_in == "00:00:00" && ($th->absent_id == '1' || $th->absent_id == '2')) {
                         echo '<img src="' . base_url() . 'assets/img/icon-leave.png" alt="">';
                       } elseif ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->time_in == "00:00:00" && $th->time_out == "00:00:00") {
@@ -174,7 +178,7 @@
                       }
                       if ($th->calendar == "NH") {
                         echo "NATIONAL HOLIDAY<br>";
-                        echo "<i style='font-size:10px; pading-top:-100px'>" . $this->CI->holidayName($th->iodate)->name . "</i>";
+                        echo "<i style='font-size:10px;'>" . $this->CI->holidayName($th->iodate)->name . "</i>";
                       }
                       if ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->absent_id != 1 && $th->absent_id != 2 && $th->time_in == "00:00:00" && $th->time_in_m == "") {
                         echo "ALPHA";
@@ -185,6 +189,7 @@
                       ?>
 
                       <?= $th->absent_id != '0' ? strtoupper($th->absent_name) : ''; ?>
+                      <?= "<i style='font-size:10px;'>" . $th->late_reason . "</i>"; ?>
                     </span>
                   </div>
                 </div>
@@ -329,11 +334,15 @@
                     <span class="userimage">
                       <?php
                       if ($th->time_in != "00:00:00" && $th->time_in > $th->start) {
-                        echo '<img src="' . base_url() . 'assets/img/icon-late.png" alt="">';
+                        echo '<img onclick="lateReason(' . $th->attendance_id . ', \'' . $th->iodate . '\')" src="' . base_url() . 'assets/img/icon-late.png" alt="">';
                       } elseif (($th->time_in != "00:00:00" && $th->time_in <= $th->start) || $th->time_in_m != "") {
                         echo '<img src="' . base_url() . 'assets/img/icon-double-checklist.png" alt="">';
-                      } elseif ($th->time_in == "00:00:00" && ($th->calendar == 'H' || $th->calendar == 'RH' || $th->calendar == 'NH')) {
+                      } elseif ($th->time_in == "00:00:00" && ($th->calendar == 'H' || $th->calendar == 'NH')) {
                         echo '<img src="' . base_url() . 'assets/img/icon-holiday.png" alt="">';
+                      } elseif ($th->calendar == 'NH') {
+                        echo '<img src="' . base_url() . 'assets/img/icon-national-holiday.png" alt="">';
+                      } elseif ($th->calendar == 'RH') {
+                        echo '<img src="' . base_url() . 'assets/img/icon-religion-holiday.png" alt="">';
                       } elseif ($th->time_in == "00:00:00" && ($th->absent_id == '1' || $th->absent_id == '2')) {
                         echo '<img src="' . base_url() . 'assets/img/icon-leave.png" alt="">';
                       } elseif ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->time_in == "00:00:00" && $th->time_out == "00:00:00") {
@@ -392,43 +401,88 @@
 
 </div>
 
-<?php
-function hari($hari)
-{
-  switch ($hari) {
-    case 'Sun':
-      $hari_ini = "Minggu";
-      break;
+<!-- Modal -->
+<div class="modal fade" id="lateReasonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alasan Terlambat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
 
-    case 'Mon':
-      $hari_ini = "Senin";
-      break;
+        <form action="" id="formLateReason" class="form-horizontal">
+          <div class="form-body">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <input name="attendance_id" class="form-control" id="attendance_id" type="hidden" readonly>
+                <input name="attendance_date" class="form-control" id="attendance_date" type="text" readonly>
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-12">
+                <textarea name="late_reason" id="late_reason" class="form-control" placeholder="Alasan Terlambat"></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+        <button type="button" onclick="saveLateReason()" class="btn btn-primary btn-block">Simpan</button>
 
-    case 'Tue':
-      $hari_ini = "Selasa";
-      break;
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
 
-    case 'Wed':
-      $hari_ini = "Rabu";
-      break;
-
-    case 'Thu':
-      $hari_ini = "Kamis";
-      break;
-
-    case 'Fri':
-      $hari_ini = "Jumat";
-      break;
-
-    case 'Sat':
-      $hari_ini = "Sabtu";
-      break;
-
-    default:
-      $hari_ini = "Tidak di ketahui";
-      break;
+<script type="text/javascript">
+  function lateReason(attendance_id, attendance_date) {
+    console.log("ALASAN TERLAMBAT");
+    console.log(attendance_id);
+    $('[name="attendance_id"]').val(attendance_id);
+    $('[name="attendance_date"]').val(attendance_date);
+    $('[name="late_reason"]').removeClass('is-invalid');
+    $("#lateReasonModal").modal('show');
   }
 
-  return $hari_ini;
-}
-?>
+  function saveLateReason() {
+    let late_reason = $('[name="late_reason"]').val();
+    if (late_reason == "") {
+
+      $('[name="late_reason"]').addClass('is-invalid');
+
+      Swal.fire({
+        title: 'Gagal',
+        text: 'Alasan terlambat wajib diisi.',
+        icon: 'error',
+        timer: 2500
+      });
+    } else {
+      $.ajax({
+        url: "<?= base_url(); ?>employee/saveLateReason",
+        type: "post",
+        data: $('#formLateReason').serialize(),
+        dataType: "JSON",
+        success: function(data) {
+          console.log(data);
+          $('#lateReasonModal').modal('hide');
+
+          $('#spinner').removeClass('is-active');
+          Swal.fire({
+            title: 'Sukses',
+            text: 'Pengajuan kehadiran berhasil.',
+            icon: 'success',
+            timer: 2500
+          });
+          location.reload()
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('Error adding / update data');
+        }
+      });
+    }
+  }
+</script>

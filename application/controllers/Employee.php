@@ -544,4 +544,26 @@ class Employee extends CI_Controller
       WHERE holiday_date = '$date'"
     )->row();
   }
+
+  public function saveLateReason()
+  {
+    $attendanceID = $this->input->post('attendance_id');
+    $lateReason = $this->input->post('late_reason');
+
+    $this->db->query(
+      "UPDATE attendance SET late_reason = '$lateReason'
+      WHERE attendance_id = $attendanceID"
+    );
+
+    echo json_encode(
+      array(
+        "status" => true,
+        "messsage" => "success",
+        // "data" => array(
+        //   "id" => $attendanceID,
+        //   "reason" => $lateReason
+        // )
+      )
+    );
+  }
 }
