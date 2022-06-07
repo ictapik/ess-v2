@@ -145,7 +145,7 @@
                   <div class="timeline-header">
                     <span class="userimage">
                       <?php
-                      if ($th->time_in != "00:00:00" && $th->time_in > $th->start) {
+                      if ($th->time_in != "00:00:00" && $th->time_in > $th->start && $th->calendar == 'WD') {
                         echo '<img onclick="lateReason(' . $th->attendance_id . ', \'' . $th->iodate . '\')" src="' . base_url() . 'assets/img/icon-late.png" alt="">';
                       } elseif (($th->time_in != "00:00:00" && $th->time_in <= $th->start) || $th->time_in_m != "") {
                         echo '<img src="' . base_url() . 'assets/img/icon-double-checklist.png" alt="">';
@@ -165,7 +165,7 @@
                     <span class="username">
                       <?php
                       echo $th->shift != '' ? strtoupper($th->shift) . "" : '';
-                      if ($th->late != "-") {
+                      if ($th->late != "-" && $th->calendar == "WD") {
                         echo " - <i style='font-weight:bold'>" . $th->late . "</i><br>";
                       }
                       ?>
@@ -306,7 +306,6 @@
                     <?= $th->iodate == date('Y-m-d') ? 'Today' : date_format(date_create($th->iodate), 'd/m/Y'); ?>
                   </span>
                   <span class="time" style="font-size:15px; font-weight:bold">
-
                     <?php
                     if ($th->time_in != "00:00:00") {
                       echo substr($th->time_in, 0, 5) . "<br>";
@@ -333,7 +332,7 @@
                   <div class="timeline-header">
                     <span class="userimage">
                       <?php
-                      if ($th->time_in != "00:00:00" && $th->time_in > $th->start) {
+                      if ($th->time_in != "00:00:00" && $th->time_in > $th->start && $th->calendar == 'WD') {
                         echo '<img onclick="lateReason(' . $th->attendance_id . ', \'' . $th->iodate . '\')" src="' . base_url() . 'assets/img/icon-late.png" alt="">';
                       } elseif (($th->time_in != "00:00:00" && $th->time_in <= $th->start) || $th->time_in_m != "") {
                         echo '<img src="' . base_url() . 'assets/img/icon-double-checklist.png" alt="">';
@@ -353,7 +352,7 @@
                     <span class="username">
                       <?php
                       echo $th->shift != '' ? strtoupper($th->shift) . "" : '';
-                      if ($th->late != "-") {
+                      if ($th->late != "-" && $th->calendar == "WD") {
                         echo " - <i style='font-weight:bold'>" . $th->late . "</i><br>";
                       }
                       ?>

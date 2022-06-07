@@ -195,6 +195,7 @@ class Model_employee extends CI_Model
             WHERE nik = '$nik'
             AND time_in <> '00:00:00'
             AND a.time_in > s.start
+            AND a.calendar = 'WD'
             AND iodate BETWEEN '$start' AND '$end'"
         )->row()->lateIn;
     }
