@@ -98,7 +98,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= base_url('employee/detailManual/' . $startDate . '/' . $endDate); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
           </div>
@@ -286,7 +286,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= base_url('employee/detailManual/' . $startDateLM . '/' . $endDateLM); ?>" class="small-box-footer">Lihat detail <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
           </div>

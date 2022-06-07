@@ -208,7 +208,7 @@ class Model_employee extends CI_Model
             FROM attendance
             WHERE nik = '$nik'
             AND (time_in_m <> '' OR time_out_m <> '')
-            AND iodate BETWEEN '$start' AND '$end';"
+            AND iodate BETWEEN '$start' AND '$end'"
         )->row()->manualAtt;
     }
 
@@ -222,6 +222,18 @@ class Model_employee extends CI_Model
             WHERE nik = '$nik'
             AND time_in <> '00:00:00'
             AND a.time_in > s.start
+            AND iodate BETWEEN '$start' AND '$end'"
+        )->result();
+    }
+
+    public function detailManual($nik, $start, $end)
+    {
+        return $this->db->query(
+            "SELECT
+                *
+            FROM attendance
+            WHERE nik = '$nik'
+            AND (time_in_m <> '' OR time_out_m <> '')
             AND iodate BETWEEN '$start' AND '$end'"
         )->result();
     }

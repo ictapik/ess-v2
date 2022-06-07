@@ -143,6 +143,22 @@ class Employee extends CI_Controller
     $this->load->view('employee/v_footer');
   }
 
+  public function detailManual($startDate, $endDate)
+  {
+    $nik = $this->session->userdata('ses_nik');
+
+    $data = array(
+      "detailManual" => $this->me->detailManual($nik, $startDate, $endDate),
+    );
+
+    $this->load->view('employee/v_header');
+    $this->load->view('employee/v_detail_manual', $data);
+    $this->load->view('employee/v_footer');
+
+    // $data = $this->me->detailManual($nik, $startDate, $endDate);
+    // echo json_encode($data);
+  }
+
   public function showAttendance()
   {
     $nik = $this->session->userdata('ses_nik');
