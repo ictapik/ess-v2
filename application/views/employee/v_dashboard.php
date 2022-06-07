@@ -376,6 +376,7 @@
                       ?>
 
                       <?= $th->absent_id != '0' ? strtoupper($th->absent_name) : ''; ?>
+                      <?= "<i style='font-size:10px;'>" . $th->late_reason . "</i>"; ?>
                     </span>
                   </div>
                 </div>
