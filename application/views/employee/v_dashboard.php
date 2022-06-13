@@ -36,21 +36,21 @@
                         Hadir
                         <span class="float-right"><b><?= $allIn . "/" . $workCal;  ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-primary" style="width: <?= $allIn / $workCal * 100; ?>%"></div>
+                          <div class="progress-bar bg-primary" style="width: <?= $allIn / ($workCal == 0 ? 1 : $workCal) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Cuti
                         <span class="float-right"><b><?= $allLeave . "/" . $workCal; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-info" style="width: <?= $allLeave / $workCal * 100; ?>%"></div>
+                          <div class="progress-bar bg-info" style="width: <?= $allLeave / ($workCal == 0 ? 1 : $workCal) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Sakit
                         <span class="float-right"><b><?= $allSick . "/" . $workCal;  ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-success" style="width: <?= $allSick / $workCal * 100; ?>%"></div>
+                          <div class="progress-bar bg-success" style="width: <?= $allSick / ($workCal == 0 ? 1 : $workCal) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
@@ -59,14 +59,14 @@
                         </span>
                         <span class="float-right"><b><?= $allPermit . "/" . $workCal;  ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-warning" style="width: <?= $allPermit / $workCal * 100; ?>%"></div>
+                          <div class="progress-bar bg-warning" style="width: <?= $allPermit / ($workCal == 0 ? 1 : $workCal) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Alpha
                         <span class="float-right"><b><?= $allAlpha . "/" . $workCal;  ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-danger" style="width: <?= $allAlpha / $workCal * 100; ?>%"></div>
+                          <div class="progress-bar bg-danger" style="width: <?= $allAlpha / ($workCal == 0 ? 1 : $workCal) * 100; ?>%"></div>
                         </div>
                       </div>
                     </div>
@@ -140,7 +140,7 @@
                     } elseif ($th->time_in_m != "") {
                       echo $th->time_in_m . "<br>";
                     } else {
-                      echo "00:00<br>";
+                      echo "<span onclick='showAddTime($th->attendance_id, 1, \"$th->iodate\")'>00:00</span><br>";
                     }
 
                     if ($th->time_out != "00:00:00") {
@@ -148,7 +148,7 @@
                     } elseif ($th->time_out_m != "") {
                       echo $th->time_out_m;
                     } else {
-                      echo "00:00";
+                      echo "<span onclick='showAddTime($th->attendance_id, 2, \"$th->iodate\")'>00:00</span><br>";
                     }
                     ?>
                   </span>
@@ -239,21 +239,21 @@
                         Hadir
                         <span class="float-right"><b><?= $allInLM . "/" . $workCalLM; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-primary" style="width: <?= $allInLM / $workCalLM * 100; ?>%"></div>
+                          <div class="progress-bar bg-primary" style="width: <?= $allInLM / ($workCalLM == 0 ? 1 : $workCalLM) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Cuti
                         <span class="float-right"><b><?= $allLeaveLM . "/" . $workCalLM; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-info" style="width: <?= $allLeaveLM / $workCalLM * 100; ?>%"></div>
+                          <div class="progress-bar bg-info" style="width: <?= $allLeaveLM / ($workCalLM == 0 ? 1 : $workCalLM) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Sakit
                         <span class="float-right"><b><?= $allSickLM . "/" . $workCalLM; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-success" style="width: <?= $allSickLM / $workCalLM * 100; ?>%"></div>
+                          <div class="progress-bar bg-success" style="width: <?= $allSickLM / ($workCalLM == 0 ? 1 : $workCalLM) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
@@ -262,14 +262,14 @@
                         </span>
                         <span class="float-right"><b><?= $allPermitLM . "/" . $workCalLM; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-warning" style="width: <?= $allPermitLM / $workCalLM * 100; ?>%"></div>
+                          <div class="progress-bar bg-warning" style="width: <?= $allPermitLM / ($workCalLM == 0 ? 1 : $workCalLM) * 100; ?>%"></div>
                         </div>
                       </div>
                       <div class="progress-group">
                         Alpha
                         <span class="float-right"><b><?= $allAlphaLM . "/" . $workCalLM; ?></b></span>
                         <div class="progress progress-sm">
-                          <div class="progress-bar bg-danger" style="width: <?= $allAlphaLM / $workCalLM * 100; ?>%"></div>
+                          <div class="progress-bar bg-danger" style="width: <?= $allAlphaLM / ($workCalLM == 0 ? 1 : $workCalLM) * 100; ?>%"></div>
                         </div>
                       </div>
                     </div>
@@ -468,6 +468,75 @@
   </div>
 </div>
 
+<!-- modal add time -->
+<div class="modal fade" id="modal_addtime" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Time <span id="typeTitle"></span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
+      </div>
+
+      <div class="modal-body form">
+        <span id="hariTanggal">
+          <!-- disini nanti muncul hari dan tanggal ketika diklik absen manual -->
+        </span>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link font-weight-bold active" id="log-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Log</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link font-weight-bold" id="manual-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Manual</a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div id="response" class="mt-2"></div>
+          </div>
+
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div id="manualPropose" style="display: none;">
+              <form action="" id="form" class="form-horizontal">
+                <div class="form-body">
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <input name="new_time" class="form-control" id="new_time" type="time">
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <textarea name="new_description" id="new_description" class="form-control" placeholder="Keterangan"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <select name="new_shift" id="new_shift" class="form-control">
+                      </select>
+                      <span class="help-block"></span>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <button type="button" id="btnSaveTimePropose" onclick="saveTimePropose()" class="btn btn-primary btn-block" style="display:none">Ajukan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button> -->
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script type="text/javascript">
   function lateReason(attendance_id, attendance_date) {
     console.log("ALASAN TERLAMBAT");
@@ -514,5 +583,83 @@
         }
       });
     }
+  }
+
+  function showAddTime(id, type, dateAtt) {
+    // console.log(attendance_id);
+    // console.log(type);
+    // console.log(iodate);
+
+    if (type == 1) {
+      $("#typeTitle").html("In");
+    } else {
+      $("#typeTitle").html("Out");
+    }
+
+    $.ajax({
+      url: "<?= base_url(); ?>employee/searchLog",
+      type: "post",
+      data: {
+        'id': id,
+        'type': type,
+        'dateAtt': dateAtt
+      },
+      dataType: "JSON",
+      success: function(data) {
+        $('#modal_addtime').modal('show'); //tampilkan modal
+
+        if (data.status == true) {
+          $('#response').html(data.response);
+        } else {
+          $('#response').html('');
+        }
+
+        $("#iodate").val('');
+        $('#new_time').val('');
+        $("#new_description").val('');
+
+        $("#new_time").removeClass("is-invalid");
+        $("#new_description").removeClass("is-invalid");
+
+        $(".showDivDayDate").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $(".showDay").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $(".showDate").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#add_type").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#divrow").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#hari").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#iodate").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#add_shift").remove(); //jika sudah ada maka hapus terlebih dahulu
+        $("#attendance_id").remove(); //jika sudah ada maka hapus terlebih dahulu
+
+        $('#manualPropose').show();
+        $('#btnSaveTimePropose').show();
+
+        let nik = "<?= $this->session->userdata('ses_nik'); ?>";
+
+        $.ajax({
+          url: "<?php echo site_url('employee/getShiftByNIK/'); ?>/" + nik,
+          type: "post",
+          data: {
+            "nik": nik
+          },
+          dataType: "json",
+          success: function(data) {
+            var html = '';
+            for (var i = 0; i <= data.length - 1; i++) {
+              html += '<option value=' + data[i].shift_id + '>' + data[i].name + '</option>';
+            }
+            $("#new_shift").html(html);
+          }
+        });
+
+        $("#hariTanggal").prepend('<div class="row mb-2 showDivDayDate"><div class="col"><input value="' + hari(new Date(dateAtt).getDay()) + '" class="form-control showDay" type="text" readonly></div><div class="col"><input value="' + dateAtt + '" class="form-control showDate" type="text" readonly></div></div>');
+
+        $("#form").prepend('<input type="hidden" class="form-control" value="' + id + '" name="attendance_id" id="attendance_id" readonly><input type="hidden" class="form-control" value="' + type + '" name="add_type" id="add_type" readonly><div class="row pt-3 pb-3" id="divrow"><div class="col"><input name="iodate" value="' + hari(new Date(dateAtt).getDay()) + '"id="hari" class="form-control" id="iodate" type="hidden" readonly></div><div class="col"><input name="iodate" value="' + dateAtt + '"id="iodate" class="form-control" id="iodate" type="hidden" readonly></div></div>');
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert('Error adding / update data');
+        $('#spinner').removeClass('is-active');
+      }
+    });
   }
 </script>
