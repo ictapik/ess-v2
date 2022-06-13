@@ -342,7 +342,7 @@
                     } elseif ($th->time_in_m != "") {
                       echo $th->time_in_m . "<br>";
                     } else {
-                      echo "00:00<br>";
+                      echo "<span onclick='showAddTime($th->attendance_id, 1, \"$th->iodate\")'>00:00</span><br>";
                     }
 
                     if ($th->time_out != "00:00:00") {
@@ -350,7 +350,7 @@
                     } elseif ($th->time_out_m != "") {
                       echo $th->time_out_m;
                     } else {
-                      echo "00:00";
+                      echo "<span onclick='showAddTime($th->attendance_id, 2, \"$th->iodate\")'>00:00</span><br>";
                     }
                     ?>
                   </span>
@@ -483,22 +483,22 @@
           <!-- disini nanti muncul hari dan tanggal ketika diklik absen manual -->
         </span>
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs" id="myTabManual" role="tablist">
           <li class="nav-item" role="presentation">
-            <a class="nav-link font-weight-bold active" id="log-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Log</a>
+            <a class="nav-link font-weight-bold active" id="logTab" data-toggle="tab" href="#log" role="tab" aria-controls="home" aria-selected="true">Log</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link font-weight-bold" id="manual-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Manual</a>
+            <a class="nav-link font-weight-bold" id="manualTab" data-toggle="tab" href="#manual" role="tab" aria-controls="profile" aria-selected="false">Manual</a>
           </li>
         </ul>
 
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-content" id="myTabManualContent">
+          <div class="tab-pane fade show active" id="log">
             <div id="response" class="mt-2"></div>
           </div>
 
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div id="manualPropose" style="display: none;">
+          <div class="tab-pane fade" id="manual">
+            <div id="manualPropose">
               <form action="" id="form" class="form-horizontal">
                 <div class="form-body">
                   <div class="form-group row">
@@ -586,10 +586,6 @@
   }
 
   function showAddTime(id, type, dateAtt) {
-    // console.log(attendance_id);
-    // console.log(type);
-    // console.log(iodate);
-
     if (type == 1) {
       $("#typeTitle").html("In");
     } else {
@@ -606,6 +602,9 @@
       },
       dataType: "JSON",
       success: function(data) {
+
+        console.log(data);
+
         $('#modal_addtime').modal('show'); //tampilkan modal
 
         if (data.status == true) {
@@ -644,6 +643,9 @@
           },
           dataType: "json",
           success: function(data) {
+
+            console.log(data);
+
             var html = '';
             for (var i = 0; i <= data.length - 1; i++) {
               html += '<option value=' + data[i].shift_id + '>' + data[i].name + '</option>';
@@ -661,5 +663,73 @@
         $('#spinner').removeClass('is-active');
       }
     });
+  }
+
+  function saveTimePropose() {
+    let form = $("#form").serialize();
+
+    //validasi input
+    let new_time = $('#new_time').val();
+    let new_description = $('#new_description').val();
+    if (new_time == '' || new_description == '') {
+      new_time == '' ? $("#new_time").addClass("is-invalid") : $("#new_time").removeClass("is-invalid");
+      new_description == '' ? $("#new_description").addClass("is-invalid") : $("#new_description").removeClass("is-invalid");
+
+      Swal.fire({
+        title: 'Gagal',
+        text: 'Semua data wajib diisi.',
+        icon: 'error',
+        timer: 2500
+      });
+      $('#spinner').removeClass('is-active');
+    } else {
+      $.ajax({
+        url: "<?= base_url(); ?>employee/saveAttendance",
+        type: "post",
+        data: $('#form').serialize(),
+        dataType: "JSON",
+        success: function(data) {
+          $('#modal_addtime').modal('hide');
+          $('#spinner').removeClass('is-active');
+          Swal.fire({
+            title: 'Sukses',
+            text: 'Pengajuan kehadiran berhasil.',
+            icon: 'success',
+            timer: 2500
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('Error adding / update data');
+          $('#spinner').removeClass('is-active');
+        }
+      });
+    }
+  }
+
+  function hari(hari) {
+    switch (hari) {
+      case 0:
+        hari = "Minggu";
+        break;
+      case 1:
+        hari = "Senin";
+        break;
+      case 2:
+        hari = "Selasa";
+        break;
+      case 3:
+        hari = "Rabu";
+        break;
+      case 4:
+        hari = "Kamis";
+        break;
+      case 5:
+        hari = "Jum'at";
+        break;
+      case 6:
+        hari = "Sabtu";
+        break;
+    }
+    return hari;
   }
 </script>
