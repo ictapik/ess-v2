@@ -111,7 +111,7 @@
           } else if (data == 2) {
             return "<span class='badge badge-danger'><i class='fa fa-times-circle'></i></span>";
           } else {
-            return "<span class='badge badge-secondary'><i class='fa fa-clock'></i></span>";
+            return "<span class='badge badge-secondary' onclick='cancelManual(" + row.attendance_manual_id + ")'><i class='fa fa-clock'></i></span>";
           }
         }
       }, ],
@@ -140,4 +140,49 @@
       }
     });
   });
+
+  function reload() {
+    table.ajax.reload(null, false);
+  }
+
+  function cancelManual(id) {
+    Swal.fire({
+      title: 'Pilih',
+      text: "Yakin akan membatalkan pengajuan?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        console.log('cancel');
+        console.log(id);
+
+        $.ajax({
+          url: "<?= base_url(); ?>employee/cancelManual",
+          type: "post",
+          data: {
+            "id": id,
+          },
+          dataType: "JSON",
+          success: function(data) {
+            Swal.fire({
+              title: 'Sukses',
+              text: 'Pembatalan pengajuan kehadiran berhasil.',
+              icon: 'success',
+              timer: 2500
+            });
+            reload();
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error adding / update data');
+            // $('#spinner').removeClass('is-active');
+          }
+        });
+
+      }
+    });
+  }
 </script>

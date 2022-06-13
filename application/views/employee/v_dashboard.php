@@ -114,8 +114,23 @@
               <li>
                 <div class="timeline-time">
                   <span class="date">
-                    <?= hari(date_format(date_create($th->iodate), 'D')); ?><br>
-                    <?= $th->iodate == date('Y-m-d') ? 'Today' : date_format(date_create($th->iodate), 'd/m/Y'); ?>
+                    <?php
+                    $hari = hari(date_format(date_create($th->iodate), 'D'));
+                    if ($hari == "Minggu") {
+                      echo "<font style='color:red'>$hari</font>";
+                    } else {
+                      echo $hari;
+                    }
+                    ?>
+                    <br>
+                    <?php
+                    $tanggal = $th->iodate == date('Y-m-d') ? 'Today' : date_format(date_create($th->iodate), 'd/m/Y');
+                    if ($hari == "Minggu") {
+                      echo "<font style='color:red'>$tanggal</font>";
+                    } else {
+                      echo $tanggal;
+                    }
+                    ?>
                   </span>
                   <span class="time" style="font-size:15px; font-weight:bold">
 
@@ -302,8 +317,23 @@
               <li>
                 <div class="timeline-time">
                   <span class="date">
-                    <?= hari(date_format(date_create($th->iodate), 'D')); ?><br>
-                    <?= $th->iodate == date('Y-m-d') ? 'Today' : date_format(date_create($th->iodate), 'd/m/Y'); ?>
+                    <?php
+                    $hari = hari(date_format(date_create($th->iodate), 'D'));
+                    if ($hari == "Minggu") {
+                      echo "<font style='color:red'>$hari</font>";
+                    } else {
+                      echo $hari;
+                    }
+                    ?>
+                    <br>
+                    <?php
+                    $tanggal = $th->iodate == date('Y-m-d') ? 'Today' : date_format(date_create($th->iodate), 'd/m/Y');
+                    if ($hari == "Minggu") {
+                      echo "<font style='color:red'>$tanggal</font>";
+                    } else {
+                      echo $tanggal;
+                    }
+                    ?>
                   </span>
                   <span class="time" style="font-size:15px; font-weight:bold">
                     <?php

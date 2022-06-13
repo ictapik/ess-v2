@@ -385,6 +385,7 @@ class Employee extends CI_Controller
                     JOIN department d ON (u.department_id = d.department_id)
                     JOIN shift s ON (am.shift_id = s.shift_id)
                     WHERE nik = '$nik'
+                    AND am.isactive = 'Y'
                     ORDER BY am.attendance_manual_id DESC) temp";
 
     // Table's primary key
@@ -579,6 +580,24 @@ class Employee extends CI_Controller
         //   "id" => $attendanceID,
         //   "reason" => $lateReason
         // )
+      )
+    );
+  }
+
+  public function cancelManual()
+  {
+    $attendance_manual_id = $this->input->post('id');
+
+    $this->db->query(
+      "UPDATE attendance_manual SET isactive = 'N'
+      WHERE attendance_manual_id = $attendance_manual_id"
+    );
+
+    echo json_encode(
+      array(
+        "status" => true,
+        "messsage" => "success",
+        "attendance_manual_id" => $attendance_manual_id
       )
     );
   }
