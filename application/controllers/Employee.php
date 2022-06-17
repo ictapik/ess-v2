@@ -421,6 +421,17 @@ class Employee extends CI_Controller
     );
   }
 
+  public function getHistoryByID()
+  {
+    $id = $this->input->post('id');
+    $data = $this->db->query(
+      "SELECT *
+      FROM attendance_manual
+      WHERE attendance_manual_id = $id"
+    )->row();
+    echo json_encode($data);
+  }
+
   public function changePassword()
   {
     $nik = $this->session->userdata('ses_nik');
@@ -580,6 +591,32 @@ class Employee extends CI_Controller
         //   "id" => $attendanceID,
         //   "reason" => $lateReason
         // )
+      )
+    );
+  }
+
+  public function editManual()
+  {
+    $id = $this->input->post('attendance_manual_id');
+    $time = $this->input->post('new_time');
+    $description = $this->input->post('new_description');
+    $shift_id = $this->input->post('new_shift');
+
+    $data = array(
+      'time' => $time,
+      'description' => $description,
+      'shift_id' => $shift_id
+    );
+
+    $this->db->where('attendance_manual_id', $id);
+    $this->db->update('attendance_manual', $data);
+
+    echo json_encode(
+      array(
+        "status" => true,
+        "messsage" => "success",
+        "data" => $data,
+        "id" => $id
       )
     );
   }
