@@ -304,26 +304,43 @@ class Employee extends CI_Controller
     $iodate = $this->input->post('iodate');
     $shift_id = $this->input->post('new_shift');
 
-    $data = array(
-      'attendance_id' => $attendance_id,
-      'nik' => $nik,
-      'time' => $time,
-      'type' => $type,
-      'iodate' => $iodate,
-      'shift_id' => $shift_id,
-      'description' => $description,
-      'created' => date('Y-m-d H:i:s'),
-      'createdby' => $nik
+    // cek apakah ditanggal tersebut sudah melakukan pengajuan kehadiran
+    $check = $this->db->query(
+      "SELECT * 
+      FROM attendance_manual
+      WHERE iodate = '$iodate'
+      AND type = '$type'"
     );
 
-    $this->db->insert('attendance_manual', $data);
+    if ($check->num_rows() == 0) {
+      $data = array(
+        'attendance_id' => $attendance_id,
+        'nik' => $nik,
+        'time' => $time,
+        'type' => $type,
+        'iodate' => $iodate,
+        'shift_id' => $shift_id,
+        'description' => $description,
+        'created' => date('Y-m-d H:i:s'),
+        'createdby' => $nik
+      );
 
-    echo json_encode(
-      array(
-        "status" => true,
-        "messsage" => "success",
-      )
-    );
+      $this->db->insert('attendance_manual', $data);
+
+      echo json_encode(
+        array(
+          "status" => true,
+          "messsage" => "success",
+        )
+      );
+    } else {
+      echo json_encode(
+        array(
+          "status" => false,
+          "messsage" => "data already exists",
+        )
+      );
+    }
   }
 
   public function selectAtt()

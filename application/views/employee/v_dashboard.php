@@ -690,13 +690,22 @@
         dataType: "JSON",
         success: function(data) {
           $('#modal_addtime').modal('hide');
-          $('#spinner').removeClass('is-active');
-          Swal.fire({
-            title: 'Sukses',
-            text: 'Pengajuan kehadiran berhasil.',
-            icon: 'success',
-            timer: 2500
-          });
+          console.log(data);
+          if (data.status == true) {
+            Swal.fire({
+              title: 'Sukses',
+              text: 'Pengajuan kehadiran berhasil.',
+              icon: 'success',
+              timer: 2500
+            });
+          } else {
+            Swal.fire({
+              title: 'Gagal',
+              text: 'Pengajuan sudah pernah dilakukan, status masih menunggu.',
+              icon: 'error',
+              timer: 2500
+            });
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert('Error adding / update data');
