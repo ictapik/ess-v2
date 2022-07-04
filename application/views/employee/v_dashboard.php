@@ -172,6 +172,8 @@
                         echo '<img src="' . base_url() . 'assets/img/icon-religion-holiday.png" alt="">';
                       } elseif ($th->time_in == "00:00:00" && ($th->absent_id == '1' || $th->absent_id == '2')) {
                         echo '<img src="' . base_url() . 'assets/img/icon-leave.png" alt="">';
+                      } else if ($th->absent_id == 4 || $th->absent_id == 6) {
+                        echo '<img src="' . base_url() . 'assets/img/icon-sick.png" alt="">';
                       } elseif ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->time_in == "00:00:00" && $th->time_out == "00:00:00") {
                         echo '<img src="' . base_url() . 'assets/img/icon-alfa.png" alt="">';
                       }
@@ -195,7 +197,7 @@
                         echo "NATIONAL HOLIDAY<br>";
                         echo "<i style='font-size:10px;'>" . $this->CI->holidayName($th->iodate)->name . "</i>";
                       }
-                      if ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->absent_id != 1 && $th->absent_id != 2 && $th->time_in == "00:00:00" && $th->time_in_m == "") {
+                      if ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->absent_id != 1 && $th->absent_id != 2 && $th->absent_id != 4 && $th->absent_id != 6 && $th->time_in == "00:00:00" && $th->time_in_m == "") {
                         echo "ALPHA";
                       }
                       if ($th->time_in_m != "" && $th->shift == "") {
@@ -374,6 +376,8 @@
                         echo '<img src="' . base_url() . 'assets/img/icon-religion-holiday.png" alt="">';
                       } elseif ($th->time_in == "00:00:00" && ($th->absent_id == '1' || $th->absent_id == '2')) {
                         echo '<img src="' . base_url() . 'assets/img/icon-leave.png" alt="">';
+                      } else if ($th->absent_id == 4 || $th->absent_id == 6) {
+                        echo '<img src="' . base_url() . 'assets/img/icon-sick.png" alt="">';
                       } elseif ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->time_in == "00:00:00" && $th->time_out == "00:00:00") {
                         echo '<img src="' . base_url() . 'assets/img/icon-alfa.png" alt="">';
                       }
@@ -397,7 +401,7 @@
                         echo "NATIONAL HOLIDAY<br>";
                         echo "<i style='font-size:10px; pading-top:-100px'>" . $this->CI->holidayName($th->iodate)->name . "</i>";
                       }
-                      if ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->absent_id != 1 && $th->absent_id != 2 && $th->time_in == "00:00:00" && $th->time_in_m == "") {
+                      if ($th->calendar != "RH" && $th->calendar != "NH" && $th->calendar != 'H' && $th->absent_id != 1 && $th->absent_id != 2 && $th->absent_id != 4 && $th->absent_id != 6 && $th->time_in == "00:00:00" && $th->time_in_m == "") {
                         echo "ALPHA";
                       }
                       if ($th->time_in_m != "" && $th->shift == "") {
